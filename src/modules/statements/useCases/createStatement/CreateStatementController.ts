@@ -14,8 +14,14 @@ export class CreateStatementController {
     const { id: user_id } = request.user;
     const { amount, description } = request.body;
 
+
     const splittedPath = request.originalUrl.split('/')
-    const type = splittedPath[splittedPath.length - 1] as OperationType;
+    let type;
+    if (request.params.user_id) {
+      type = splittedPath[splittedPath.length - 2] as OperationType;
+    } else {
+      type = splittedPath[splittedPath.length - 1] as OperationType;
+    }
     let executeParams
     if (type === 'transfer') {
       const { user_id: receiver_id } = request.params;
